@@ -1,3 +1,8 @@
+# Credenciales — NUNCA subir al repo
+github-token.txt
+.env
+
+# Dependencias y temporales
 node_modules/
 reviews-cache.json
-.env
+scraper.log
