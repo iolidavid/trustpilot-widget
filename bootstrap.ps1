@@ -5,10 +5,15 @@
 #  - Ejecuta el scraper (publica reseñas en GitHub Pages)
 #
 #  Uso:  powershell -ExecutionPolicy Bypass -File bootstrap.ps1
+#  Carpeta personalizada:
+#        powershell -ExecutionPolicy Bypass -File bootstrap.ps1 -Folder "D:\ruta"
 # ============================================================
 
+param(
+    [string]$Folder = (Join-Path $env:USERPROFILE "trustpilot-widget")
+)
+
 $RepoUrl = "https://github.com/mauricio-dev-ad/trustpilot-widget.git"
-$Folder  = Join-Path $env:USERPROFILE "trustpilot-widget"
 
 # 1. Clonar si la carpeta no existe
 if (-not (Test-Path $Folder)) {
