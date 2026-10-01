@@ -1,33 +1,32 @@
 # ============================================================
-#  Configura la tarea interdiaria en Windows Task Scheduler
-#  Ejecutar UNA SOLA VEZ como Administrador:
-#    Clic derecho en setup-scheduler.ps1 → "Ejecutar con PowerShell"
+#  Programa la actualizacion DIARIA del widget de Trustpilot
+#  en el Programador de tareas de Windows.
+#
+#  La tarea ejecuta bootstrap.ps1 (git pull + npm install si falta + scrape),
+#  de modo que siempre corre con la ultima version del codigo.
+#
+#  Ejecutar una sola vez:
+#    powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1
 # ============================================================
 
 $scriptDir  = Split-Path -Parent $MyInvocation.MyCommand.Path
-$scriptPath = Join-Path $scriptDir "fetch-reviews-puppeteer.js"
-$logPath    = Join-Path $scriptDir "scraper.log"
-$nodeCmd    = Get-Command node -ErrorAction SilentlyContinue
-$nodePath   = if ($nodeCmd) { $nodeCmd.Source } else { $null }
+$bootstrap  = Join-Path $scriptDir "bootstrap.ps1"
 
-if (-not $nodePath) {
-    Write-Host "ERROR: Node.js no encontrado. Instálalo desde https://nodejs.org" -ForegroundColor Red
-    pause; exit 1
+if (-not (Test-Path $bootstrap)) {
+    Write-Host "ERROR: no se encontro bootstrap.ps1 en esta carpeta." -ForegroundColor Red
+    exit 1
 }
 
-# Acción: correr node fetch-reviews-puppeteer.js y guardar log
+# Accion: ejecutar bootstrap.ps1 con PowerShell
 $action = New-ScheduledTaskAction `
-    -Execute $nodePath `
-    -Argument "`"$scriptPath`"" `
+    -Execute "powershell.exe" `
+    -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$bootstrap`"" `
     -WorkingDirectory $scriptDir
 
-# Trigger: cada 2 días (interdiario) a las 7:00 AM
-$trigger = New-ScheduledTaskTrigger `
-    -Daily `
-    -DaysInterval 2 `
-    -At "07:00"
+# Trigger: todos los dias a las 7:00 AM
+$trigger = New-ScheduledTaskTrigger -Daily -At "07:00"
 
-# Configuración: correr aunque no haya usuario logueado, reintentar si falla
+# Correr aunque la hora se haya perdido; reintentar si falla
 $settings = New-ScheduledTaskSettingsSet `
     -ExecutionTimeLimit (New-TimeSpan -Hours 1) `
     -RestartCount 2 `
@@ -37,7 +36,6 @@ $settings = New-ScheduledTaskSettingsSet `
 
 $taskName = "TrustpilotWidgetUpdater"
 
-# Eliminar si ya existe
 Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
 
 # Tarea de usuario normal (no requiere permisos de administrador)
@@ -46,19 +44,17 @@ Register-ScheduledTask `
     -Action $action `
     -Trigger $trigger `
     -Settings $settings `
-    -Description "Actualiza reseñas Trustpilot de asuntosdigitales.com cada 2 días" | Out-Null
+    -Description "Actualiza resenas Trustpilot de asuntosdigitales.com (bootstrap) todos los dias" | Out-Null
 
+$info = Get-ScheduledTaskInfo -TaskName $taskName
 Write-Host ""
-Write-Host "✓ Tarea programada creada correctamente." -ForegroundColor Green
+Write-Host "OK Tarea programada creada correctamente." -ForegroundColor Green
 Write-Host ""
-Write-Host "  Nombre:    $taskName"
-Write-Host "  Frecuencia: Cada 2 días (interdiario) a las 7:00 AM"
-Write-Host "  Script:    $scriptPath"
+Write-Host "  Nombre:     $taskName"
+Write-Host "  Frecuencia: Todos los dias a las 7:00 AM"
+Write-Host "  Ejecuta:    bootstrap.ps1 (git pull + scrape)"
+Write-Host "  Proxima:    $($info.NextRunTime)"
 Write-Host ""
-Write-Host "Para probar ahora mismo (sin esperar al lunes):" -ForegroundColor Yellow
-Write-Host "  Start-ScheduledTask -TaskName '$taskName'"
+Write-Host "NOTA: el token debe estar disponible (variable GITHUB_TOKEN o github-token.txt)."
+Write-Host "Probar ahora:  Start-ScheduledTask -TaskName '$taskName'"
 Write-Host ""
-Write-Host "Para ver el log después de correr:"
-Write-Host "  Get-Content '$logPath'"
-Write-Host ""
-pause
