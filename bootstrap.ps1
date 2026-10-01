@@ -22,7 +22,10 @@ if (-not (Test-Path $Folder)) {
     if ($LASTEXITCODE -ne 0) { Write-Host "ERROR: no se pudo clonar el repo. Verifica que Git este instalado." -ForegroundColor Red; exit 1 }
 } else {
     Write-Host "Carpeta encontrada. Actualizando repositorio..." -ForegroundColor Cyan
-    git -C $Folder pull
+    git -C $Folder fetch --quiet origin
+    # El scraper reescribe reviews.json localmente; descartamos ese cambio para que
+    # el update nunca choque y siempre quede la ultima version del codigo.
+    git -C $Folder reset --hard "@{u}" --quiet
 }
 
 Set-Location $Folder
