@@ -31,7 +31,7 @@ const MAX_REVIEWS  = 9;
 const PAGES        = 2;
 
 // GitHub Pages — datos del repositorio destino
-const GITHUB_USER  = 'mauricio-dev-ad';
+const GITHUB_USER  = 'iolidavid';
 const GITHUB_REPO  = 'trustpilot-widget';
 
 // El token NO se escribe aquí (el repo es público).
@@ -221,7 +221,7 @@ async function main() {
 
   // Push a GitHub Pages
   console.log('\n  Publicando en GitHub Pages...');
-  await pushToGitHub(jsonContent);
+  const publicado = await pushToGitHub(jsonContent);
 
   // Preview
   console.log('\n--- Últimas 3 reseñas capturadas ---');
@@ -230,6 +230,12 @@ async function main() {
     console.log(`    "${r.title}"`);
     console.log(`    ${(r.text || '').slice(0, 100)}`);
   });
+
+  if (!publicado) {
+    console.error('\n[ERROR] NO se publico en GitHub Pages: el widget seguira mostrando las resenas anteriores.');
+    console.error('  Revisa el token (github-token.txt o GITHUB_TOKEN) y que el repo exista.');
+    process.exit(1);
+  }
 
   console.log('\n✓ Completado.\n');
 }

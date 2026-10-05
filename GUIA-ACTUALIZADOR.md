@@ -7,7 +7,7 @@ de donde el widget de la landing (Kajabi) las lee.
 > residencial. NO funciona en servidores en la nube (Vercel, Railway, GitHub Actions, etc.)
 > porque Trustpilot bloquea las IPs de datacenter con error 403.
 
-El código vive en el repo público: https://github.com/mauricio-dev-ad/trustpilot-widget
+El código vive en el repo público: https://github.com/iolidavid/trustpilot-widget
 El **token de GitHub NO está en el repo** (sería un riesgo de seguridad). Cada computadora
 pone su token por fuera, como se explica abajo.
 
@@ -57,7 +57,7 @@ Si no hay ninguno de los dos, el script avisa y no publica.
 
 ### Pasos
 ```
-git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git
+git clone https://github.com/iolidavid/trustpilot-widget.git
 cd trustpilot-widget
 npm install
 ```
@@ -67,7 +67,7 @@ node fetch-reviews-puppeteer.js
 ```
 Debe terminar con:
 ```
-✓ GitHub Pages actualizado → https://mauricio-dev-ad.github.io/trustpilot-widget/reviews.json
+✓ GitHub Pages actualizado → https://iolidavid.github.io/trustpilot-widget/reviews.json
 ```
 
 ### Programar cada 2 días (opcional)
