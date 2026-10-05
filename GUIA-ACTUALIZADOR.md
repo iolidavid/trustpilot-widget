@@ -100,3 +100,48 @@ El token debe estar ya configurado en esa máquina (variable de entorno o `githu
 - Para que la tarea corra sola, la computadora debe estar encendida a la hora programada
   (si está apagada, corre al encenderse — `StartWhenAvailable`).
 - El diseño del widget vive en el código pegado en Kajabi; este script solo actualiza los DATOS.
+
+---
+
+## Migración desde la cuenta `mauricio-dev-ad` (octubre 2026)
+
+La cuenta `mauricio-dev-ad` se eliminó. Como el subdominio de GitHub Pages lleva el
+usuario adentro (`<usuario>.github.io`), desaparece junto con la cuenta: **no hay
+redirección posible**. El repo se transfirió a **`iolidavid`** (David Ioli) y la URL
+que lee el widget pasó a ser:
+
+```
+https://iolidavid.github.io/trustpilot-widget/reviews.json
+```
+
+Esa URL está escrita en dos lugares y **ambos deben coincidir**:
+- `fetch-reviews-puppeteer.js` → constante `GITHUB_USER` (dónde publica el scraper)
+- `trustpilot-widget.html` → `CONFIG.liveUrl` — y, lo más importante, **la copia de ese
+  código pegada en el Custom Code de la landing de Kajabi**, que es la que ve el público.
+
+### Sobre el token
+
+El token ahora lo emite **David**, dueño del repo. Debe ser un *fine-grained token*
+limitado al repositorio `trustpilot-widget` con permiso **Contents: Read and write**.
+Se guarda en esta máquina en `github-token.txt` (ignorado por git) o en la variable
+de entorno `GITHUB_TOKEN`.
+
+⚠️ **Los fine-grained tokens caducan (máximo 1 año).** Cuando caduque, el scraper
+dejará de publicar. Anota aquí la fecha de vencimiento al crearlo:
+
+```
+Token creado el: ____________   Vence el: ____________
+```
+
+### Si la actualización falla
+
+Desde esta migración, el scraper **termina con error (código 1)** si no logra publicar,
+en vez de terminar en silencio. Para revisar si la tarea diaria está sana:
+
+```
+Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, LastTaskResult
+```
+
+`LastTaskResult = 0` → todo bien. Cualquier otro valor → revisar el token y que el repo
+siga existiendo. Mientras tanto el widget **no se rompe**: muestra las 9 reseñas de
+respaldo que están escritas dentro del propio código del widget.
