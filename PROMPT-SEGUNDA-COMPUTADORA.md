@@ -47,53 +47,80 @@ Mensaje directo o gestor de contraseñas. **Nunca por correo ni en un chat grupa
 
 ## Paso 3 — El prompt para Mary
 
-Antes de enviárselo, confirma que su computadora cumple:
+**No necesita tener nada instalado:** el propio prompt instala Git y Node.js. Lo único
+que hace falta de antemano es Claude Code abierto en su computadora.
 
-- [ ] Windows con **Git** y **Node.js (LTS)** instalados
+Lo que sí conviene confirmarle antes:
+
+- [ ] Windows 10 u 11
+- [ ] **Puede aceptar las ventanas de permiso de Windows** (el "¿Permites que esta
+      aplicación haga cambios?"). Si su computadora la administra un área de sistemas y
+      no la deja instalar programas, tendrán que instalarle Git y Node.js ellos primero
 - [ ] Internet normal, de casa u oficina. **No sirve con VPN corporativa ni escritorio
       remoto en la nube**: Trustpilot bloquea las IPs de datacenter con error 403
-- [ ] La deja encendida a la hora en que corra la tarea (si está apagada, corre al encenderla)
+- [ ] Un rato tranquilo la primera vez: la instalación descarga cerca de 300 MB
+- [ ] Deja la computadora encendida a la hora en que corra la tarea (si está apagada,
+      corre en cuanto la encienda)
 
 Que abra Claude Code en cualquier carpeta y pegue esto tal cual:
 
 ```
-Necesito que configures en esta computadora el actualizador del widget de reseñas de
-Trustpilot de Asuntos Digitales. Esta máquina va a ser el respaldo de la de Mauricio:
-las dos publican las mismas reseñas a horas distintas, para que el widget de la web se
-actualice aunque una esté apagada.
+Necesito que instales y configures en esta computadora el actualizador del widget de
+reseñas de Trustpilot de Asuntos Digitales. No tengo nada instalado todavía, así que
+empieza desde cero. Esta máquina va a ser el respaldo de la de Mauricio: las dos publican
+las mismas reseñas a horas distintas, para que el widget de la web se actualice aunque
+una esté apagada.
 
 Contexto técnico: un script con Puppeteer lee las reseñas desde Trustpilot y las publica
 como un JSON en GitHub Pages; las landings de Asuntos Digitales leen ese JSON. Solo
 funciona desde una computadora con internet residencial — en servidores en la nube
 Trustpilot responde 403.
 
-Haz esto en orden y detente en cuanto algo falle, explicándome qué pasó:
+Ve explicándome en lenguaje sencillo qué estás haciendo en cada paso, y detente en cuanto
+algo falle contándome qué pasó. Hazlo en este orden:
 
-1. Comprueba que estén instalados Git y Node.js (`git --version` y `node --version`).
-   Si falta alguno, dime cuál y detente: hay que instalarlo desde https://git-scm.com
-   y https://nodejs.org antes de seguir.
+1. Mira si ya están instalados Git y Node.js:  git --version  y  node --version
 
-2. Clona el repositorio en mi carpeta de usuario:
-   git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
+2. Si falta alguno, instálalo con winget (comprueba antes que exista, con winget --version):
+   winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements
+   winget install --id OpenJS.NodeJS.LTS -e --accept-source-agreements --accept-package-agreements
 
-3. El token: NO me lo pidas por el chat ni lo escribas tú. Dime que abra el Bloc de notas,
+   Avísame ANTES de lanzarlos: Windows me va a abrir una ventana preguntando si permito
+   los cambios, y tengo que darle a "Sí" o la instalación se queda esperando.
+
+   Si winget no existe en esta computadora, dime que los descargue a mano desde
+   https://git-scm.com/download/win y https://nodejs.org (versión LTS), y espera a que
+   termine.
+
+3. IMPORTANTE: después de instalar, Claude Code todavía no "ve" los programas nuevos.
+   Dime que cierre Claude Code por completo y lo vuelva a abrir, y que pegue otra vez
+   este mismo mensaje. No pasa nada por repetirlo: los pasos ya hechos se saltan solos.
+
+4. Con Git y Node ya funcionando, trae el proyecto a mi carpeta de usuario:
+   - Si la carpeta "$env:USERPROFILE\trustpilot-widget" NO existe:
+     git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
+   - Si ya existe, entra en ella y haz git pull
+
+5. El token: NO me lo pidas por el chat ni lo escribas tú. Dime que abra el Bloc de notas,
    pegue el token que me pasaron y guarde el archivo como:
    C:\Users\<mi-usuario>\trustpilot-widget\github-token.txt
    (sin saltos de línea ni espacios de más, y eligiendo "Tipo: Todos los archivos" para que
-   no quede como .txt.txt). Después verifica solo que el archivo exista y no esté vacío:
-   NO imprimas su contenido ni lo copies a ningún otro sitio.
+   no quede guardado como .txt.txt). Después verifica solo que el archivo exista y no esté
+   vacío: NO imprimas su contenido ni lo copies a ningún otro sitio.
 
-4. Dentro de esa carpeta instala las dependencias:  npm install
+6. Dentro de esa carpeta instala las dependencias:  npm install
+   Avísame que esto descarga un navegador Chrome propio, unos 300 MB, y que puede tardar
+   varios minutos sin dar señales de vida. Es normal, no está colgado.
 
-5. Corre el actualizador:  node fetch-reviews-puppeteer.js
+7. Corre el actualizador:  node fetch-reviews-puppeteer.js
    Tiene que terminar con la línea "✓ GitHub Pages actualizado".
    Si sale un error en vez de eso, muéstramelo y detente.
 
-6. Deja la actualización automática programada a la 1 de la tarde (la de Mauricio corre a
+8. Deja la actualización automática programada a la 1 de la tarde (la de Mauricio corre a
    las 7 de la mañana, así nos turnamos):
    powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1 -Hora "13:00"
 
-7. Repórtame al final: las 3 reseñas más recientes que se publicaron, y la próxima
+9. Repórtame al final: las 3 reseñas más recientes que se publicaron, y la próxima
    ejecución programada (NextRunTime) de la tarea "TrustpilotWidgetUpdater".
 
 No modifiques ningún archivo del proyecto y no subas nada a GitHub por tu cuenta: el
@@ -119,6 +146,29 @@ Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, 
 ```
 
 `LastTaskResult = 0` → bien. Cualquier otro número → problema con el token o con el repo.
+
+---
+
+## Si prefiere hacerlo a mano (sin Claude Code)
+
+1. Instalar **Git** desde <https://git-scm.com/download/win> (siguiente, siguiente, sin
+   cambiar nada) y **Node.js LTS** desde <https://nodejs.org>
+2. Cerrar y volver a abrir PowerShell, para que reconozca los programas nuevos
+3. Correr:
+
+```
+git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
+cd "$env:USERPROFILE\trustpilot-widget"
+npm install
+```
+
+4. Crear `github-token.txt` dentro de esa carpeta, con el token como único contenido
+5. Correr:
+
+```
+node fetch-reviews-puppeteer.js
+powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1 -Hora "13:00"
+```
 
 ---
 
