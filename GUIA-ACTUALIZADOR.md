@@ -145,3 +145,14 @@ Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, 
 `LastTaskResult = 0` → todo bien. Cualquier otro valor → revisar el token y que el repo
 siga existiendo. Mientras tanto el widget **no se rompe**: muestra las 9 reseñas de
 respaldo que están escritas dentro del propio código del widget.
+### Segunda computadora (respaldo)
+
+Se puede tener la tarea en dos computadoras a la vez: no hay conflicto, cada ejecucion
+reemplaza `reviews.json` con los mismos datos. Conviene programarlas a horas distintas
+para que si una esta apagada, la otra publique igual:
+
+```
+powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1 -Hora "13:00"
+```
+
+Ambas maquinas pueden usar el mismo token (esta limitado a este repo).
