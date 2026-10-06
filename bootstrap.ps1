@@ -13,7 +13,7 @@ param(
     [string]$Folder = (Join-Path $env:USERPROFILE "trustpilot-widget")
 )
 
-$RepoUrl = "https://github.com/iolidavid/trustpilot-widget.git"
+$RepoUrl = "https://github.com/mauricio-dev-ad/trustpilot-widget.git"
 
 # 1. Clonar si la carpeta no existe
 if (-not (Test-Path $Folder)) {

@@ -7,7 +7,7 @@ de donde el widget de la landing (Kajabi) las lee.
 > residencial. NO funciona en servidores en la nube (Vercel, Railway, GitHub Actions, etc.)
 > porque Trustpilot bloquea las IPs de datacenter con error 403.
 
-El código vive en el repo público: https://github.com/iolidavid/trustpilot-widget
+El código vive en el repo público: https://github.com/mauricio-dev-ad/trustpilot-widget
 El **token de GitHub NO está en el repo** (sería un riesgo de seguridad). Cada computadora
 pone su token por fuera, como se explica abajo.
 
@@ -57,7 +57,7 @@ Si no hay ninguno de los dos, el script avisa y no publica.
 
 ### Pasos
 ```
-git clone https://github.com/iolidavid/trustpilot-widget.git
+git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git
 cd trustpilot-widget
 npm install
 ```
@@ -67,10 +67,10 @@ node fetch-reviews-puppeteer.js
 ```
 Debe terminar con:
 ```
-✓ GitHub Pages actualizado → https://iolidavid.github.io/trustpilot-widget/reviews.json
+✓ GitHub Pages actualizado → https://mauricio-dev-ad.github.io/trustpilot-widget/reviews.json
 ```
 
-### Programar cada 2 días (opcional)
+### Programar la actualización diaria (opcional)
 ```
 powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1
 ```
@@ -103,31 +103,37 @@ El token debe estar ya configurado en esa máquina (variable de entorno o `githu
 
 ---
 
-## Migración desde la cuenta `mauricio-dev-ad` (octubre 2026)
+## Migración pendiente: la cuenta `mauricio-dev-ad` se va a eliminar
 
-La cuenta `mauricio-dev-ad` se eliminó. Como el subdominio de GitHub Pages lleva el
-usuario adentro (`<usuario>.github.io`), desaparece junto con la cuenta: **no hay
-redirección posible**. El repo se transfirió a **`iolidavid`** (David Ioli) y la URL
-que lee el widget pasó a ser:
+La cuenta personal de Mauricio se eliminará. Como el subdominio de GitHub Pages lleva el
+usuario adentro (`<usuario>.github.io`), **desaparece junto con la cuenta y no hay
+redirección posible**. El plan acordado es transferir este repo a `iolidavid` (David Ioli),
+con lo que la URL pasará a ser `https://iolidavid.github.io/trustpilot-widget/reviews.json`.
 
-```
-https://iolidavid.github.io/trustpilot-widget/reviews.json
-```
+**Todavía NO se hizo.** Hoy todo sigue apuntando a `mauricio-dev-ad`, que es lo correcto
+hasta que la transferencia ocurra.
 
-Esa URL está escrita en dos lugares y **ambos deben coincidir**:
-- `fetch-reviews-puppeteer.js` → constante `GITHUB_USER` (dónde publica el scraper)
-- `trustpilot-widget.html` → `CONFIG.liveUrl` — y, lo más importante, **la copia de ese
-  código pegada en el Custom Code de la landing de Kajabi**, que es la que ve el público.
+### Qué habrá que cambiar el día de la transferencia
 
-### Sobre el token
+La URL está escrita en tres sitios y **los tres deben cambiar a la vez**:
 
-El token ahora lo emite **David**, dueño del repo. Debe ser un *fine-grained token*
-limitado al repositorio `trustpilot-widget` con permiso **Contents: Read and write**.
-Se guarda en esta máquina en `github-token.txt` (ignorado por git) o en la variable
-de entorno `GITHUB_TOKEN`.
+1. `fetch-reviews-puppeteer.js` → constante `GITHUB_USER` (dónde publica el scraper)
+2. `bootstrap.ps1` → `$RepoUrl`, y el remote de cada clon (`git remote set-url origin ...`)
+3. `trustpilot-widget.html` → `CONFIG.liveUrl`, y sobre todo **las 18 landings de Kajabi**
+   que tienen el widget pegado en una sección llamada "Reseñas Trustpilot" — esas son las
+   que ve el público
 
-⚠️ **Los fine-grained tokens caducan (máximo 1 año).** Cuando caduque, el scraper
-dejará de publicar. Anota aquí la fecha de vencimiento al crearlo:
+Además hay que rehacer el token: el actual muere con la cuenta de Mauricio. El nuevo lo
+emite el dueño del repo, como *fine-grained token* limitado a `trustpilot-widget` con
+permiso **Contents: Read and write**, y hay que ponerlo en **todas** las computadoras que
+corran el actualizador.
+
+⚠️ **No cambies el remote de un clon antes de que el repo destino exista.** Si el `git fetch`
+falla, el bootstrap avisa y sigue con el código local — pero antes de ese arreglo revertía la
+carpeta en silencio a una versión vieja (pasó el 2026-10-06).
+
+⚠️ **Los fine-grained tokens caducan (máximo 1 año).** Cuando caduque, el scraper deja de
+publicar. Anota la fecha al crearlo:
 
 ```
 Token creado el: ____________   Vence el: ____________
@@ -135,16 +141,17 @@ Token creado el: ____________   Vence el: ____________
 
 ### Si la actualización falla
 
-Desde esta migración, el scraper **termina con error (código 1)** si no logra publicar,
-en vez de terminar en silencio. Para revisar si la tarea diaria está sana:
+El scraper **termina con error (código 1)** si no logra publicar, en vez de terminar en
+silencio. Para revisar si la tarea diaria está sana:
 
 ```
 Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, LastTaskResult
 ```
 
-`LastTaskResult = 0` → todo bien. Cualquier otro valor → revisar el token y que el repo
-siga existiendo. Mientras tanto el widget **no se rompe**: muestra las 9 reseñas de
-respaldo que están escritas dentro del propio código del widget.
+`LastTaskResult = 0` → todo bien. Cualquier otro valor → revisar el token y que el repo siga
+existiendo. Mientras tanto el widget **no se rompe**: muestra las 9 reseñas de respaldo que
+están escritas dentro del propio código del widget.
+
 ### Segunda computadora (respaldo)
 
 Se puede tener la tarea en dos computadoras a la vez: no hay conflicto, cada ejecucion
