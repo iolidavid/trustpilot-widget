@@ -23,9 +23,16 @@ if (-not (Test-Path $Folder)) {
 } else {
     Write-Host "Carpeta encontrada. Actualizando repositorio..." -ForegroundColor Cyan
     git -C $Folder fetch --quiet origin
-    # El scraper reescribe reviews.json localmente; descartamos ese cambio para que
-    # el update nunca choque y siempre quede la ultima version del codigo.
-    git -C $Folder reset --hard "@{u}" --quiet
+    if ($LASTEXITCODE -ne 0) {
+        # Sin contacto con el remoto NO reseteamos: un reset contra una referencia
+        # vieja revertiria el codigo local en silencio. Mejor seguir con lo que hay.
+        Write-Host "AVISO: no se pudo contactar el repositorio remoto. Se continua con el codigo local." -ForegroundColor Yellow
+        git -C $Folder checkout --quiet -- reviews.json
+    } else {
+        # El scraper reescribe reviews.json localmente; descartamos ese cambio para que
+        # el update nunca choque y siempre quede la ultima version del codigo.
+        git -C $Folder reset --hard "@{u}" --quiet
+    }
 }
 
 Set-Location $Folder
