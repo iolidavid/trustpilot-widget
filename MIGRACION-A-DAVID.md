@@ -13,6 +13,22 @@ que el hueco dure minutos, no días.
 
 ---
 
+## Estado al 2026-10-06 (antes del dia D)
+
+Ya se actualizo el **respaldo** del widget en 17 de las 18 landings (las 9 resenas quemadas
+pasaron a ser copia de lo publicado hoy, y el contador de 366 a 415). Eso significa que el
+jueves, cuando muera la URL vieja, las landings mostraran resenas de octubre de 2026 en vez
+de las de diciembre de 2025 — el hueco se vuelve practicamente invisible.
+
+Consecuencia practica: **el jueves solo hay que cambiar la URL** en esas 17 paginas, sobre un
+mecanismo ya probado y verificado byte a byte.
+
+> ⚠️ **`certificacion-claude` quedo fuera a proposito:** tiene un test A/B activo, con dos
+> variantes de tema (2167559522 y 2167559523). Mauricio la actualiza por su cuenta, y el jueves
+> hay que acordarse de cambiar la URL en **las dos variantes**, no solo en una.
+
+---
+
 ## Fase 1 — GitHub (Mauricio y David) · ~20 min
 
 - [ ] **1.1 Mauricio transfiere el repo.** En `github.com/mauricio-dev-ad/trustpilot-widget`
