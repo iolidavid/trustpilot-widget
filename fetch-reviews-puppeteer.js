@@ -31,7 +31,7 @@ const MAX_REVIEWS  = 9;
 const PAGES        = 2;
 
 // GitHub Pages — datos del repositorio destino
-const GITHUB_USER  = 'mauricio-dev-ad';
+const GITHUB_USER  = 'iolidavid';
 const GITHUB_REPO  = 'trustpilot-widget';
 
 // El token NO se escribe aquí (el repo es público).
