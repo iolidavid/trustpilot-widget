@@ -13,6 +13,26 @@ que el hueco dure minutos, no días.
 
 ---
 
+## Estado al 2026-10-07 — migración ejecutada
+
+| Fase | Estado |
+|---|---|
+| 1. Transferencia y Pages | ✅ Hecha. Repo en `iolidavid`, Pages activo, URL nueva responde con CORS correcto |
+| 2. Computadora de Mauricio | ✅ Hecha. Código, remote y scraper apuntan a `iolidavid`; el bootstrap publica OK |
+| 3. Landings de Kajabi | ✅ 17 de 17 editadas y verificadas byte a byte. **Falta `certificacion-claude`** (test A/B) |
+| 4. Computadora de Marypier | ⏳ Pendiente (no estaba configurada aún) |
+| 5. Cierre | ⏳ Pendiente: token de David, comprobar las dos tareas diarias, y solo entonces eliminar la cuenta |
+
+**Atención con el token:** hoy el scraper publica con el token de `mauricio-dev-ad`, que sigue
+teniendo permiso de escritura en el repo nuevo. **Dejará de servir al eliminar la cuenta**, así que
+David tiene que emitir el suyo antes de ese día (ver la guía).
+
+**Nota sobre la caché de Kajabi:** tras editar, algunas páginas pueden seguir sirviendo la versión
+anterior durante un rato a quien entra por la URL exacta; con cualquier parámetro (`?x=1`) ya salen
+actualizadas. Se refresca sola.
+
+---
+
 ## Estado al 2026-10-06 (antes del dia D)
 
 Ya se actualizo el **respaldo** del widget en 17 de las 18 landings (las 9 resenas quemadas

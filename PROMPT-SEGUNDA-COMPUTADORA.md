@@ -1,6 +1,6 @@
 # Montar el actualizador en la computadora de Marypier
 
-Segunda máquina de respaldo, sobre el repo actual `mauricio-dev-ad/trustpilot-widget`.
+Segunda máquina de respaldo, sobre el repo `iolidavid/trustpilot-widget` (propiedad de David Ioli).
 Las dos computadoras publican las mismas reseñas a horas distintas, así el widget se
 actualiza aunque una esté apagada.
 
@@ -14,24 +14,23 @@ Son dos envíos separados: **el token** por canal privado, y **el prompt** por d
 El repositorio es **público**: Mary puede clonarlo sin invitación ni cuenta de GitHub.
 Lo único que necesita es un token, y solo sirve para *publicar* el JSON.
 
-**Lo recomendado — un token propio para ella, limitado a este repo:**
+El repo pertenece a **David** (`iolidavid`), así que **el token lo crea David**, no Mauricio:
 
-1. Entra a <https://github.com/settings/personal-access-tokens/new>
-2. Token name: `Trustpilot Widget — Marypier`
-3. Expiration: la máxima que ofrezca (anota la fecha, caduca)
+1. David entra a <https://github.com/settings/personal-access-tokens/new>
+2. Token name: `Trustpilot Widget — PC Marypier`
+3. Expiration: la máxima que ofrezca (anotar la fecha, caduca)
 4. Repository access → **Only select repositories** → `trustpilot-widget`
 5. Repository permissions → **Contents** → **Read and write**
-6. Generate token y cópialo
+6. Generate token y se lo pasa a Mauricio por un canal privado
 
-Así Mary solo puede escribir en este repositorio y en ningún otro. Si más adelante hay
-que revocarle el acceso, se borra ese token y listo — sin tocar el tuyo.
+Así Mary solo puede escribir en este repositorio y en ningún otro, y si hay que revocarle
+el acceso se borra ese token sin afectar al de Mauricio.
 
-> **No le pases el token que usa tu computadora.** Si es un token clásico (`ghp_...`),
-> da acceso a *todos* tus repositorios, no solo a este.
+> **No uses el token de la computadora de Mauricio** ni uno emitido desde la cuenta
+> `mauricio-dev-ad`: esa cuenta se va a eliminar y sus tokens dejarán de funcionar.
 
-**Opcional — añadirla como colaboradora:** solo si quieres que además vea y administre el
-repo desde GitHub (Settings → Collaborators → Add people). No hace falta para que el
-actualizador funcione, y requiere que ella tenga cuenta de GitHub.
+**Alternativa:** que David la añada como colaboradora (Settings → Collaborators) y que
+ella genere su propio token. Requiere que Mary tenga cuenta de GitHub.
 
 ---
 
@@ -98,7 +97,7 @@ algo falle contándome qué pasó. Hazlo en este orden:
 
 4. Con Git y Node ya funcionando, trae el proyecto a mi carpeta de usuario:
    - Si la carpeta "$env:USERPROFILE\trustpilot-widget" NO existe:
-     git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
+     git clone https://github.com/iolidavid/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
    - Si ya existe, entra en ella y haz git pull
 
 5. El token: NO me lo pidas por el chat ni lo escribas tú. Dime que abra el Bloc de notas,
@@ -134,7 +133,7 @@ script publica solo. El archivo github-token.txt está en .gitignore, déjalo as
 Al día siguiente, desde cualquier computadora:
 
 ```
-curl https://mauricio-dev-ad.github.io/trustpilot-widget/reviews.json
+curl https://iolidavid.github.io/trustpilot-widget/reviews.json
 ```
 
 El campo `business.fetchedAt` debe tener la fecha del día.
@@ -157,7 +156,7 @@ Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, 
 3. Correr:
 
 ```
-git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
+git clone https://github.com/iolidavid/trustpilot-widget.git "$env:USERPROFILE\trustpilot-widget"
 cd "$env:USERPROFILE\trustpilot-widget"
 npm install
 ```
@@ -172,13 +171,8 @@ powershell -ExecutionPolicy Bypass -File setup-scheduler.ps1 -Hora "13:00"
 
 ---
 
-## Pendiente: cuando se migre el repo a David
+## Nota: el repo ya está en la cuenta de David
 
-La cuenta `mauricio-dev-ad` se va a eliminar y el repo se transferirá a `iolidavid`.
-Ese día **la computadora de Mary también hay que actualizarla**, no solo la de Mauricio:
-
-1. Token nuevo, emitido por el dueño del repo, en su `github-token.txt`
-2. `git remote set-url origin https://github.com/iolidavid/trustpilot-widget.git`
-3. Un `git pull` recoge el código ya apuntando a la URL nueva
-
-Está detallado en `GUIA-ACTUALIZADOR.md`, sección *Migración pendiente*.
+Desde el 2026-10-07 el repo vive en `iolidavid/trustpilot-widget` y el widget de la web lee
+`https://iolidavid.github.io/trustpilot-widget/reviews.json`. Todo lo de este documento
+apunta ya a ahí, así que Mary puede configurar su computadora directamente, sin pasos extra.

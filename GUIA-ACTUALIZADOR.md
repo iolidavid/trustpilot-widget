@@ -7,7 +7,7 @@ de donde el widget de la landing (Kajabi) las lee.
 > residencial. NO funciona en servidores en la nube (Vercel, Railway, GitHub Actions, etc.)
 > porque Trustpilot bloquea las IPs de datacenter con error 403.
 
-El código vive en el repo público: https://github.com/mauricio-dev-ad/trustpilot-widget
+El código vive en el repo público: https://github.com/iolidavid/trustpilot-widget
 El **token de GitHub NO está en el repo** (sería un riesgo de seguridad). Cada computadora
 pone su token por fuera, como se explica abajo.
 
@@ -57,7 +57,7 @@ Si no hay ninguno de los dos, el script avisa y no publica.
 
 ### Pasos
 ```
-git clone https://github.com/mauricio-dev-ad/trustpilot-widget.git
+git clone https://github.com/iolidavid/trustpilot-widget.git
 cd trustpilot-widget
 npm install
 ```
@@ -67,7 +67,7 @@ node fetch-reviews-puppeteer.js
 ```
 Debe terminar con:
 ```
-✓ GitHub Pages actualizado → https://mauricio-dev-ad.github.io/trustpilot-widget/reviews.json
+✓ GitHub Pages actualizado → https://iolidavid.github.io/trustpilot-widget/reviews.json
 ```
 
 ### Programar la actualización diaria (opcional)
@@ -103,34 +103,33 @@ El token debe estar ya configurado en esa máquina (variable de entorno o `githu
 
 ---
 
-## Migración pendiente: la cuenta `mauricio-dev-ad` se va a eliminar
+## Migración a la cuenta de David — completada (2026-10-07)
 
-La cuenta personal de Mauricio se eliminará. Como el subdominio de GitHub Pages lleva el
-usuario adentro (`<usuario>.github.io`), **desaparece junto con la cuenta y no hay
-redirección posible**. El plan acordado es transferir este repo a `iolidavid` (David Ioli),
-con lo que la URL pasará a ser `https://iolidavid.github.io/trustpilot-widget/reviews.json`.
+La cuenta personal de Mauricio (`mauricio-dev-ad`) se va a eliminar. Como el subdominio de
+GitHub Pages lleva el usuario (`<usuario>.github.io`), la URL vieja murió con la
+transferencia. El repo vive ahora en **`iolidavid/trustpilot-widget`** y el widget lee:
 
-**Todavía NO se hizo.** Hoy todo sigue apuntando a `mauricio-dev-ad`, que es lo correcto
-hasta que la transferencia ocurra.
+```
+https://iolidavid.github.io/trustpilot-widget/reviews.json
+```
 
-### Qué habrá que cambiar el día de la transferencia
+Esa URL está escrita en tres sitios y **deben coincidir**:
+- `fetch-reviews-puppeteer.js` → constante `GITHUB_USER` (dónde publica el scraper)
+- `bootstrap.ps1` → `$RepoUrl`, y el `remote` de cada clon
+- `trustpilot-widget.html` → `CONFIG.liveUrl`, y **las 17 landings de Kajabi** que llevan
+  el widget pegado en una sección "Reseñas Trustpilot" (la que ve el público)
 
-La URL está escrita en tres sitios y **los tres deben cambiar a la vez**:
+### Pendiente antes de eliminar la cuenta de Mauricio
 
-1. `fetch-reviews-puppeteer.js` → constante `GITHUB_USER` (dónde publica el scraper)
-2. `bootstrap.ps1` → `$RepoUrl`, y el remote de cada clon (`git remote set-url origin ...`)
-3. `trustpilot-widget.html` → `CONFIG.liveUrl`, y sobre todo **las 18 landings de Kajabi**
-   que tienen el widget pegado en una sección llamada "Reseñas Trustpilot" — esas son las
-   que ve el público
-
-Además hay que rehacer el token: el actual muere con la cuenta de Mauricio. El nuevo lo
-emite el dueño del repo, como *fine-grained token* limitado a `trustpilot-widget` con
-permiso **Contents: Read and write**, y hay que ponerlo en **todas** las computadoras que
-corran el actualizador.
-
-⚠️ **No cambies el remote de un clon antes de que el repo destino exista.** Si el `git fetch`
-falla, el bootstrap avisa y sigue con el código local — pero antes de ese arreglo revertía la
-carpeta en silencio a una versión vieja (pasó el 2026-10-06).
+- [ ] **Token de David.** Hoy el scraper publica con el token de `mauricio-dev-ad`, que
+      todavía tiene permiso de escritura en el repo nuevo, pero **dejará de funcionar al
+      borrar la cuenta**. David debe emitir un *fine-grained token* limitado a
+      `trustpilot-widget` con **Contents: Read and write**, y ponerlo en `github-token.txt`
+      de cada computadora que actualice el widget.
+- [ ] **Computadora de Marypier**, si ya estaba configurada: `git remote set-url origin
+      https://github.com/iolidavid/trustpilot-widget.git`, `git pull` y token nuevo.
+- [ ] **`certificacion-claude`** (tiene un test A/B con dos variantes de tema): cambiar la URL
+      en **las dos variantes**. Mientras tanto muestra las reseñas de respaldo de dic-2025.
 
 ⚠️ **Los fine-grained tokens caducan (máximo 1 año).** Cuando caduque, el scraper deja de
 publicar. Anota la fecha al crearlo:
@@ -150,7 +149,7 @@ Get-ScheduledTaskInfo -TaskName "TrustpilotWidgetUpdater" | Select LastRunTime, 
 
 `LastTaskResult = 0` → todo bien. Cualquier otro valor → revisar el token y que el repo siga
 existiendo. Mientras tanto el widget **no se rompe**: muestra las 9 reseñas de respaldo que
-están escritas dentro del propio código del widget.
+están escritas dentro del propio código del widget (actualizadas el 2026-10-06).
 
 ### Segunda computadora (respaldo)
 
