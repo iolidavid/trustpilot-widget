@@ -3,12 +3,38 @@
     "name": "Asuntos Digitales",
     "score": 4.7,
     "stars": 4.5,
-    "totalReviews": 415,
+    "totalReviews": 417,
     "url": "https://www.trustpilot.com/review/asuntosdigitales.com",
-    "fetchedAt": "2026-10-13T14:00:16.838Z"
+    "fetchedAt": "2026-10-21T18:39:39.703Z"
   },
   "count": 9,
   "reviews": [
+    {
+      "id": "6ad24342a56180d4668ae4b6",
+      "stars": 5,
+      "title": "Muy profesional",
+      "text": "Muy profesional",
+      "author": "Victor Manuel Pinto",
+      "country": "CO",
+      "reviewCount": 1,
+      "date": "oct 2026",
+      "publishedISO": "2026-10-16T17:31:14.000Z",
+      "experienceISO": "2026-10-16T00:00:00.000Z",
+      "verified": true
+    },
+    {
+      "id": "6ace710971a7b0fe9fd61948",
+      "stars": 5,
+      "title": "Me encantaron los cursos",
+      "text": "Me encantaron los cursos, los profes, la atención y la experiencia de compartir con ustedes estos meses 🥰. Creo que los voy a extrañar 😉, a pesar de no haber participado como hubiese querido.",
+      "author": "Galia",
+      "country": "VE",
+      "reviewCount": 1,
+      "date": "oct 2026",
+      "publishedISO": "2026-10-13T19:57:29.000Z",
+      "experienceISO": "2026-10-13T00:00:00.000Z",
+      "verified": true
+    },
     {
       "id": "6ac034b105c7eff60e593175",
       "stars": 5,
@@ -98,32 +124,6 @@
       "date": "ago 2026",
       "publishedISO": "2026-08-26T02:04:19.000Z",
       "experienceISO": "2026-08-19T00:00:00.000Z",
-      "verified": true
-    },
-    {
-      "id": "6a8617156dccb25f056487c9",
-      "stars": 5,
-      "title": "Muy enriquecedor el contenido del…",
-      "text": "Muy enriquecedor el contenido del diplomado y la calidad de los instructores.",
-      "author": "Recursos Humanos Mr. B",
-      "country": "GT",
-      "reviewCount": 1,
-      "date": "ago 2026",
-      "publishedISO": "2026-08-19T22:50:29.000Z",
-      "experienceISO": "2026-08-19T00:00:00.000Z",
-      "verified": true
-    },
-    {
-      "id": "6a84e294f9e3c3e7a199a57d",
-      "stars": 5,
-      "title": "Fascinantes descubrimientos en el ecosistema artístico",
-      "text": "Mi experiencia con el diplomado, fue fundamental para dar forma a mi emprendimiento de bolsos sublimados con fotografías de Catalunya, y actividades artísticas de las que fui parte cómo espectadora, ya que viví 8 años en Barcelona, también he realizado un par de exposiciones fotográficas, una de ellas en el consulado de Colombia en Barcelona, y mi interés de crecer en el aspecto artístico, era esencial, para darle forma a las ideas que van creciendo, ya que soy de profesión: diseñadora visual, con una maestría en diseño y creación interactiva, donde el desarrollo de conocimiento basado en la industria del arte, necesitaba lo que brinda éste maravilloso diplomado, donde pude aprender sobre la industria del arte, el crecer a través del glosario del medio artístico, ampliando estrategias de manera consciente, persistente y llevandolas a los límites del saber, también, recibí una guía sobre las diferentes alternativas de los posibles aliados en el ecosistema artístico, así como el posicionamiento en el medio, donde se evidenciaban otras opciones de desarrollo como artista, y así poder entablar una conversación con la obra, tomando la propuesta de valor de las necesidades creativas que están condensadas en el compromiso de generar un cambio a nivel geopolitico, con la presencia de los mejores maestros de los temas que menciono, ya que entregaban todo su conocimiento en pro del crecimiento individual y empresarial, ya que siempre sentí a través de sus narrativas, un darse-cuenta del cómo, cuando, donde, porque, para que, para quien, hacerlas posibles, además de la practicidad, la lógica, y la necesidad de hacerlas emerger en cada participante del diplomado, así mismo, me encontré con la claridad sobre el marketing, el branding, la autonomía, y fuentes de búsqueda de recursos para dar a conocer la obra, también, la importancia de las redes sociales en el manejo de la divulgación de las creaciones, el ecommerce, y entrar a reconocer los puntos de conexión con los espacios expositivos como galerías, ferias, curadores, coleccionistas, subastas, y algo esencial, la logística que hace parte de la distribución de la creación, otro punto esencial fue el compromiso individual para crear el contexto de exhibición, la gestión financiera, cómo polo a tierra, de un elemento como és el arte, para un artista, que normalmente tiene éste factor, no tan fuerte en su forma de hacer, también, los contratos, derechos de autor y la propiedad intelectual de la obra, y por último hago énfasis en la importancia del uso de la IA como una pieza que logra encajar todo lo mencionado anteriormente, dejando así un proyecto acompasado con el interés del artista... Y quiero agradecer especialmente a la organización, puntualidad, apertura, respuesta pronta de asuntos digitales, con Maria Corina como su representante, y la directora del diplomado Anna Sokoloff, quien de forma directa, clara, entregada y conocedora del medio artístico, nos encaminó... ",
-      "author": "Monica Naranjo Ruiz",
-      "country": "CO",
-      "reviewCount": 1,
-      "date": "ago 2026",
-      "publishedISO": "2026-08-19T00:54:12.000Z",
-      "experienceISO": "2026-03-18T00:00:00.000Z",
       "verified": true
     }
   ]
